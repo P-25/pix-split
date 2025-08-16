@@ -1,38 +1,72 @@
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
-import { __ } from '@wordpress/i18n';
+import { __ } from "@wordpress/i18n";
+import {
+	InspectorControls,
+	MediaUpload,
+	MediaUploadCheck,
+} from "@wordpress/block-editor";
+import { Button, PanelBody, TextControl } from "@wordpress/components";
 
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
-import { useBlockProps } from '@wordpress/block-editor';
+const ALLOWED_MEDIA_TYPES = ["image"];
 
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
-import './editor.scss';
+export default function Edit({ attributes, setAttributes }) {
+	const { beforeLabel, afterLabel, afterImage, beforeImage } = attributes;
 
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
- *
- * @return {Element} Element to render.
- */
-export default function Edit() {
 	return (
-		<p { ...useBlockProps() }>
-			{ __( 'Pix Split – hello from the editor!', 'pix-split' ) }
-		</p>
+		<>
+			<InspectorControls>
+				<PanelBody title={__("Slider Settings", "pix-split")}>
+					<TextControl
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
+						label={__("Before Label", "pix-split")}
+						value={beforeLabel || ""}
+						onChange={(value) => setAttributes({ beforeLabel: value })}
+					/>
+					<TextControl
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
+						label={__("After Label", "pix-split")}
+						value={afterLabel || ""}
+						onChange={(value) => setAttributes({ afterLabel: value })}
+					/>
+				</PanelBody>
+			</InspectorControls>
+
+			<div className="pix-split-editor">
+				<div>
+					<MediaUploadCheck>
+						<MediaUpload
+							onSelect={(media) => {
+								console.log(`Debug - media`, media.url);
+								setAttributes({ beforeImage: media.url });
+							}}
+							allowedTypes={ALLOWED_MEDIA_TYPES}
+							value={beforeImage}
+							render={({ open }) => (
+								<Button onClick={open}>Select Before Image</Button>
+							)}
+						/>
+					</MediaUploadCheck>
+					{beforeImage && <img src={beforeImage} width={100} height={100} />}
+				</div>
+
+				<div>
+					<MediaUploadCheck>
+						<MediaUpload
+							onSelect={(media) => {
+								console.log(`Debug - media`, media.url);
+								setAttributes({ afterImage: media.url });
+							}}
+							allowedTypes={ALLOWED_MEDIA_TYPES}
+							value={afterImage}
+							render={({ open }) => (
+								<Button onClick={open}>Select After Image</Button>
+							)}
+						/>
+					</MediaUploadCheck>
+					{afterImage && <img src={afterImage} width={100} height={100} />}
+				</div>
+			</div>
+		</>
 	);
 }
