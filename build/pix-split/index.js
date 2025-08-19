@@ -8,7 +8,7 @@
   \**********************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"pix-split/slider","version":"0.1.0","title":"Pix Split","category":"media","icon":"embed-photo","description":"Before After Image Slider for Gutenberg to compare two images with a draggable slider.","example":{},"supports":{"html":false},"textdomain":"pix-split","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js","attributes":{"beforeImage":{"type":"string","default":""},"afterImage":{"type":"string","default":""},"beforeLabel":{"type":"string","default":"Before"},"afterLabel":{"type":"string","default":"After"}}}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"pix-split/slider","version":"0.1.0","title":"Pix Split","category":"media","icon":"embed-photo","description":"Before After Image Slider for Gutenberg to compare two images with a draggable slider.","example":{},"supports":{"html":false},"textdomain":"pix-split","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewStyle":"file:./assets/frontend.css","script":"file:./assets/frontend.js","viewScript":"file:./view.js","attributes":{"beforeImage":{"type":"string","default":""},"afterImage":{"type":"string","default":""},"beforeLabel":{"type":"string","default":"Before"},"afterLabel":{"type":"string","default":"After"}}}');
 
 /***/ }),
 
@@ -32,15 +32,18 @@ function ImageSlider({
   afterImage
 }) {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-    className: `pix-split-slider`,
+    className: `beer-slider horizontal`,
+    "data-beer-label": beforeLabel,
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("img", {
       src: beforeImage,
-      alt: beforeLabel,
-      "data-label": beforeLabel
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("img", {
-      src: afterImage,
-      alt: afterLabel,
-      "data-label": afterLabel
+      alt: beforeLabel
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+      className: "beer-reveal",
+      "data-beer-label": afterLabel,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("img", {
+        src: afterImage,
+        alt: afterLabel
+      })
     })]
   });
 }

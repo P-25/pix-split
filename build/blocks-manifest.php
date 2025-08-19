@@ -20,6 +20,8 @@ return array(
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
+		'viewStyle' => 'file:./assets/frontend.css',
+		'script' => 'file:./assets/frontend.js',
 		'viewScript' => 'file:./view.js',
 		'attributes' => array(
 			'beforeImage' => array(

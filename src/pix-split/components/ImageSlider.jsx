@@ -5,9 +5,11 @@ export default function ImageSlider({
 	afterImage,
 }) {
 	return (
-		<div className={`pix-split-slider`}>
-			<img src={beforeImage} alt={beforeLabel} data-label={beforeLabel} />
-			<img src={afterImage} alt={afterLabel} data-label={afterLabel} />
+		<div className={`beer-slider horizontal`} data-beer-label={beforeLabel}>
+			<img src={beforeImage} alt={beforeLabel} />
+			<div className="beer-reveal" data-beer-label={afterLabel}>
+				<img src={afterImage} alt={afterLabel} />
+			</div>
 		</div>
 	);
 }
