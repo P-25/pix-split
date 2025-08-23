@@ -8,7 +8,7 @@
   \**********************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"pix-split/slider","version":"0.1.0","title":"Pix Split","category":"media","icon":"embed-photo","description":"Before After Image Slider for Gutenberg to compare two images with a draggable slider.","example":{},"supports":{"html":false},"textdomain":"pix-split","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewStyle":"file:./assets/frontend.css","script":"file:./assets/frontend.js","viewScript":"file:./view.js","attributes":{"beforeImage":{"type":"string","default":""},"afterImage":{"type":"string","default":""},"beforeLabel":{"type":"string","default":"Before"},"afterLabel":{"type":"string","default":"After"}}}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"pix-split/slider","version":"0.1.0","title":"Pix Split","category":"media","icon":"embed-photo","description":"Before After Image Slider for Gutenberg to compare two images with a draggable slider.","example":{},"supports":{"html":false},"textdomain":"pix-split","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":["file:./style-index.css","file:./assets/frontend.css"],"viewStyle":"file:./assets/frontend.css","script":"file:./assets/frontend.js","viewScript":"file:./view.js","attributes":{"beforeImage":{"type":"string","default":""},"afterImage":{"type":"string","default":""},"beforeLabel":{"type":"string","default":"Before"},"afterLabel":{"type":"string","default":"After"},"width":{"type":"number","default":500},"height":{"type":"number","default":300}}}');
 
 /***/ }),
 
@@ -73,6 +73,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const ALLOWED_MEDIA_TYPES = ["image"];
+const DEFAULT_BEFORE = "https://www.cams-it.com/wp-content/uploads/2015/05/default-placeholder-300x200.png";
+const DEFAULT_AFTER = "https://www.tgsin.in/images/joomlart/demo/default.jpg";
 function Edit({
   attributes,
   setAttributes
@@ -83,6 +85,20 @@ function Edit({
     afterImage,
     beforeImage
   } = attributes;
+
+  // 👇 handle image selection
+  const onSelectBefore = media => {
+    if (!media || !media.url) return;
+    setAttributes({
+      beforeImage: media.url
+    });
+  };
+  const onSelectAfter = media => {
+    if (!media || !media.url) return;
+    setAttributes({
+      afterImage: media.url
+    });
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InspectorControls, {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
@@ -106,52 +122,73 @@ function Edit({
         })]
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-      className: "pix-split-editor",
+      className: "pixsplit-editor",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaUploadCheck, {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaUpload, {
-            onSelect: media => {
-              console.log(`Debug - media`, media.url);
-              setAttributes({
-                beforeImage: media.url
-              });
-            },
-            allowedTypes: ALLOWED_MEDIA_TYPES,
-            value: beforeImage,
-            render: ({
-              open
-            }) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
-              onClick: open,
-              children: "Select Before Image"
+        className: "pixsplit-edit-images",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "pixsplit-edit-image",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaUploadCheck, {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaUpload, {
+              onSelect: onSelectBefore,
+              allowedTypes: ["image"],
+              render: ({
+                open
+              }) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+                onClick: open,
+                className: "pixsplit-image-button",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+                  src: beforeImage || DEFAULT_BEFORE,
+                  alt: "Before",
+                  style: {
+                    maxWidth: "100%",
+                    cursor: "pointer"
+                  }
+                })
+              })
             })
-          })
-        }), beforeImage && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
-          src: beforeImage,
-          width: 100,
-          height: 100
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+            className: "pixsplit-label",
+            children: "Before"
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "pixsplit-edit-image",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaUploadCheck, {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaUpload, {
+              onSelect: onSelectAfter,
+              allowedTypes: ["image"],
+              render: ({
+                open
+              }) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+                onClick: open,
+                className: "pixsplit-image-button",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+                  src: afterImage || DEFAULT_AFTER,
+                  alt: "After",
+                  style: {
+                    maxWidth: "100%",
+                    cursor: "pointer"
+                  }
+                })
+              })
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+            className: "pixsplit-label",
+            children: "After"
+          })]
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaUploadCheck, {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaUpload, {
-            onSelect: media => {
-              console.log(`Debug - media`, media.url);
-              setAttributes({
-                afterImage: media.url
-              });
-            },
-            allowedTypes: ALLOWED_MEDIA_TYPES,
-            value: afterImage,
-            render: ({
-              open
-            }) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
-              onClick: open,
-              children: "Select After Image"
-            })
+        className: `beer-slider horizontal`,
+        "data-beer-label": beforeLabel,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+          src: beforeImage || DEFAULT_BEFORE,
+          alt: beforeLabel
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "beer-reveal",
+          "data-beer-label": afterLabel,
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+            src: afterImage || DEFAULT_AFTER,
+            alt: afterLabel
           })
-        }), afterImage && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
-          src: afterImage,
-          width: 100,
-          height: 100
         })]
       })]
     })]

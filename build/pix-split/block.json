@@ -14,7 +14,10 @@
   "textdomain": "pix-split",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css",
+  "style": [
+    "file:./style-index.css",
+    "file:./assets/frontend.css"
+  ],
   "viewStyle": "file:./assets/frontend.css",
   "script": "file:./assets/frontend.js",
   "viewScript": "file:./view.js",
@@ -34,6 +37,14 @@
     "afterLabel": {
       "type": "string",
       "default": "After"
+    },
+    "width": {
+      "type": "number",
+      "default": 500
+    },
+    "height": {
+      "type": "number",
+      "default": 300
     }
   }
 }

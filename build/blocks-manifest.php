@@ -19,7 +19,10 @@ return array(
 		'textdomain' => 'pix-split',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css',
+		'style' => array(
+			'file:./style-index.css',
+			'file:./assets/frontend.css'
+		),
 		'viewStyle' => 'file:./assets/frontend.css',
 		'script' => 'file:./assets/frontend.js',
 		'viewScript' => 'file:./view.js',
@@ -39,6 +42,14 @@ return array(
 			'afterLabel' => array(
 				'type' => 'string',
 				'default' => 'After'
+			),
+			'width' => array(
+				'type' => 'number',
+				'default' => 500
+			),
+			'height' => array(
+				'type' => 'number',
+				'default' => 300
 			)
 		)
 	)

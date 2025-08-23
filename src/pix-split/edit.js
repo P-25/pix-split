@@ -8,9 +8,22 @@ import { Button, PanelBody, TextControl } from "@wordpress/components";
 
 const ALLOWED_MEDIA_TYPES = ["image"];
 
+const DEFAULT_BEFORE =
+	"https://www.cams-it.com/wp-content/uploads/2015/05/default-placeholder-300x200.png";
+const DEFAULT_AFTER = "https://www.tgsin.in/images/joomlart/demo/default.jpg";
+
 export default function Edit({ attributes, setAttributes }) {
 	const { beforeLabel, afterLabel, afterImage, beforeImage } = attributes;
 
+	// 👇 handle image selection
+	const onSelectBefore = (media) => {
+		if (!media || !media.url) return;
+		setAttributes({ beforeImage: media.url });
+	};
+	const onSelectAfter = (media) => {
+		if (!media || !media.url) return;
+		setAttributes({ afterImage: media.url });
+	};
 	return (
 		<>
 			<InspectorControls>
@@ -32,39 +45,51 @@ export default function Edit({ attributes, setAttributes }) {
 				</PanelBody>
 			</InspectorControls>
 
-			<div className="pix-split-editor">
-				<div>
-					<MediaUploadCheck>
-						<MediaUpload
-							onSelect={(media) => {
-								console.log(`Debug - media`, media.url);
-								setAttributes({ beforeImage: media.url });
-							}}
-							allowedTypes={ALLOWED_MEDIA_TYPES}
-							value={beforeImage}
-							render={({ open }) => (
-								<Button onClick={open}>Select Before Image</Button>
-							)}
-						/>
-					</MediaUploadCheck>
-					{beforeImage && <img src={beforeImage} width={100} height={100} />}
-				</div>
+			<div className="pixsplit-editor">
+				<div className="pixsplit-edit-images">
+					<div className="pixsplit-edit-image">
+						<MediaUploadCheck>
+							<MediaUpload
+								onSelect={onSelectBefore}
+								allowedTypes={["image"]}
+								render={({ open }) => (
+									<Button onClick={open} className="pixsplit-image-button">
+										<img
+											src={beforeImage || DEFAULT_BEFORE}
+											alt="Before"
+											style={{ maxWidth: "100%", cursor: "pointer" }}
+										/>
+									</Button>
+								)}
+							/>
+						</MediaUploadCheck>
+						<p className="pixsplit-label">Before</p>
+					</div>
 
-				<div>
-					<MediaUploadCheck>
-						<MediaUpload
-							onSelect={(media) => {
-								console.log(`Debug - media`, media.url);
-								setAttributes({ afterImage: media.url });
-							}}
-							allowedTypes={ALLOWED_MEDIA_TYPES}
-							value={afterImage}
-							render={({ open }) => (
-								<Button onClick={open}>Select After Image</Button>
-							)}
-						/>
-					</MediaUploadCheck>
-					{afterImage && <img src={afterImage} width={100} height={100} />}
+					<div className="pixsplit-edit-image">
+						<MediaUploadCheck>
+							<MediaUpload
+								onSelect={onSelectAfter}
+								allowedTypes={["image"]}
+								render={({ open }) => (
+									<Button onClick={open} className="pixsplit-image-button">
+										<img
+											src={afterImage || DEFAULT_AFTER}
+											alt="After"
+											style={{ maxWidth: "100%", cursor: "pointer" }}
+										/>
+									</Button>
+								)}
+							/>
+						</MediaUploadCheck>
+						<p className="pixsplit-label">After</p>
+					</div>
+				</div>
+				<div className={`beer-slider horizontal`} data-beer-label={beforeLabel}>
+					<img src={beforeImage || DEFAULT_BEFORE} alt={beforeLabel} />
+					<div className="beer-reveal" data-beer-label={afterLabel}>
+						<img src={afterImage || DEFAULT_AFTER} alt={afterLabel} />
+					</div>
 				</div>
 			</div>
 		</>
